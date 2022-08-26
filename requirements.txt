@@ -14,6 +14,7 @@ cryptography==37.0.4
 dash==2.6.1
 dash-bootstrap-components==0.8.3
 dash-core-components==2.0.0
+dash-html-components==1.0.3
 dash-renderer==1.1.2
 dash-table==5.0.0
 dash-tools==1.8.2
@@ -36,12 +37,13 @@ mkl-service==2.4.0
 nodeenv==1.7.0
 omegaconf==2.2.3
 packaging==21.0
-pandas @ file:///C:/ci/pandas_1641461312795/work
+numpy==1.22.0
+pandas==1.0.0
 parsedatetime==2.6
 patsy==0.5.2
 pipreqs==0.4.11
 platformdirs==2.5.2
-plotly @ file:///opt/conda/envs/env/conda-bld/plotly_1660225103991/work/packages/python/plotly/dist/plotly-5.10.0.tar.gz
+plotly==4.8.0
 plotly-express==0.4.1
 pluggy==0.13.1
 pre-commit==2.16.0
