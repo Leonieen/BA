@@ -14,7 +14,6 @@ cryptography==37.0.4
 dash==2.6.1
 dash-bootstrap-components==0.8.3
 dash-core-components==2.0.0
-dash-html-components @ file:///home/conda/feedstock_root/build_artifacts/dash-html-components_1645162180756/work
 dash-renderer==1.1.2
 dash-table==5.0.0
 dash-tools==1.8.2
@@ -35,7 +34,6 @@ Mako==1.2.1
 mkl-fft==1.3.1
 mkl-service==2.4.0
 nodeenv==1.7.0
-numpy @ file:///C:/ci/numpy_and_numpy_base_1653574840943/work
 omegaconf==2.2.3
 packaging==21.0
 pandas @ file:///C:/ci/pandas_1641461312795/work
@@ -53,10 +51,8 @@ pycparser==2.21
 PyJWT==2.4.0
 pymongo==4.2.0
 PyMySQL==1.0.2
-pyparsing @ file:///tmp/build/80754af9/pyparsing_1635766073266/work
 pysolr==3.9.0
 pytest==6.2.2
-python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
 python-dotenv==0.20.0
 python-memcached==1.59
 pytimeparse==1.1.8
