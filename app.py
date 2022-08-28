@@ -142,16 +142,16 @@ sidebar = html.Div(
         # Wochentage_checklist
         html.Label(children=['Wochentag: '], style=blackbold),
         dcc.Checklist(id='wochentage',
-                      options=[{'label': str(b), 'value': b} for b in sorted(df['USTUNDE'].unique())],
-                      value=[b for b in sorted(df['USTUNDE'].unique())],
+                      options=[{'label': str(b), 'value': b} for b in sorted(df['UWOCHENTAG'].unique())],
+                      value=[b for b in sorted(df['UWOCHENTAG'].unique())],
                       style={"display": "inline", 'color': 'black'},  # 'label':{'color':'black'}},
                       labelStyle={"display": "inline"}
                       ),
         # Monat_type_checklist
         html.Label(children=['Stunden: '], style=blackbold),
         dcc.Checklist(id='stunden',
-                      options=[{'label': str(b), 'value': b} for b in sorted(df['UMONAT'].unique())],
-                      value=[b for b in sorted(df['UMONAT'].unique())],
+                      options=[{'label': str(b), 'value': b} for b in sorted(df['USTUNDE'].unique())],
+                      value=[b for b in sorted(df['USTUNDE'].unique())],
                       style={"display": "inline", 'color': 'black'},
                       labelStyle={"display": "inline"}
                       ),
