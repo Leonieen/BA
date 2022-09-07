@@ -134,7 +134,20 @@ sidebar = html.Div(
         # Monat_type_checklist
         html.Label(children=['Monat: '], style=blackbold),
         dcc.Checklist(id='monat',
-                      options=[{'label': str(b), 'value': b} for b in sorted(df['UMONAT'].unique())],
+                      options=[
+                                {'label': 'Januar', 'value': 1},
+                                {'label': 'Februar', 'value': 2},
+                                {'label': 'März', 'value': 3},
+                                {'label': 'April', 'value': 4},
+                                {'label': 'Mai', 'value': 5},
+                                {'label': 'Juni', 'value': 6},
+                                {'label': 'Juli', 'value': 7},
+                                {'label': 'August', 'value': 8},
+                                {'label': 'September', 'value': 9},
+                                {'label': 'Oktober', 'value': 10},
+                                {'label': 'November', 'value': 11},
+                                {'label': 'Dezember', 'value': 12},
+                            ],
                       value=[b for b in sorted(df['UMONAT'].unique())],
                       style={"display": "inline", 'color': 'black'},
                       labelStyle={"display": "inline"}
@@ -142,36 +155,44 @@ sidebar = html.Div(
         # Wochentage_checklist
         html.Label(children=['Wochentag: '], style=blackbold),
         dcc.Checklist(id='wochentage',
-                      options=[{'label': str(b), 'value': b} for b in sorted(df['UWOCHENTAG'].unique())],
+                      options=[
+                                {'label': 'Montag', 'value': 2},
+                                {'label': 'Dienstag', 'value': 3},
+                                {'label': 'Mittwoch', 'value': 4},
+                                {'label': 'Donnerstag', 'value': 5},
+                                {'label': 'Freitag', 'value': 6},
+                                {'label': 'Samstag', 'value': 7},
+                                {'label': 'Sonntag', 'value': 1},
+                            ],
                       value=[b for b in sorted(df['UWOCHENTAG'].unique())],
                       style={"display": "inline", 'color': 'black'},  # 'label':{'color':'black'}},
                       labelStyle={"display": "inline"}
                       ),
-        # # Stunde_type_checklist
-        # html.Label(children=['Stunden: '], style=blackbold),
-        # dcc.Checklist(id='stunden',
-        #               options=[{'label': str(b), 'value': b} for b in sorted(df['USTUNDE'].unique())],
-        #               value=[b for b in sorted(df['USTUNDE'].unique())],
-        #               style={"display": "inline", 'color': 'black'},
-        #               labelStyle={"display": "inline"}
-        #               ),
 
         html.Hr(),
         # Lichtverhaeltnisse_type_checklist
         html.Label(children=['Lichtverhaeltnisse: '], style=blackbold),
         dcc.Checklist(id='lichtverhaeltnisse',
-                      options=[{'label': str(b), 'value': b} for b in sorted(df['ULICHTVERH'].unique())],
+                      options=[
+                                {'label': 'Tageslicht', 'value': 0},
+                                {'label': 'Dämmerung', 'value': 1},
+                                {'label': 'Dunkelheit', 'value': 2},
+                            ],
                       value=[b for b in sorted(df['ULICHTVERH'].unique())],
                       style={"display": "inline", 'color': 'black'},
-                      labelStyle={"display": "inline", 'padding-top': '6px'}
+                      labelStyle={"display": "inline",'padding-top': '6px'}
                       ),
         # Strassenverhaeltnisse_type_checklist
         html.Label(children=['Strassenverhaeltnisse: '], style=blackbold),
         dcc.Checklist(id='strassenverhaeltnisse',
-                      options=[{'label': str(b), 'value': b} for b in sorted(df['STRZUSTAND'].unique())],
+                      options=[
+                                {'label': 'trocken', 'value': 0},
+                                {'label': 'nass', 'value': 1},
+                                {'label': 'winterglatt', 'value': 2},
+                            ],
                       value=[b for b in sorted(df['STRZUSTAND'].unique())],
                       style={"display": "inline", 'color': 'black'},
-                      labelStyle={"display": "inline", 'padding-top': '6px'}
+                      labelStyle={"display": "inline",'padding-top': '6px'}
                       ),
         html.Hr(),
         # Unfallart_type_checklist -> austauschen dann durch neue Spalte
@@ -186,7 +207,11 @@ sidebar = html.Div(
         # Unterkategorie_type_checklist
         html.Label(children=['Unterkategorie: '], style=blackbold),
         dcc.Checklist(id='unterkategorie',
-                      options=[{'label': str(b), 'value': b} for b in sorted(df['UKATEGORIE'].unique())],
+                      options=[
+                                {'label': 'Unfall mit Getöteten', 'value': 1},
+                                {'label': 'Unfall mit Schwerverletzten', 'value': 2},
+                                {'label': 'Unfall mit Leichtverletzten', 'value': 3},
+                            ],
                       value=[b for b in sorted(df['UKATEGORIE'].unique())],
                       style={"display": "inline", 'color': 'black'},
                       labelStyle={"display": "inline"}
@@ -216,13 +241,8 @@ def render_page_content(pathname):
             html.Div([
                 # Map
                 html.Div([
-                    dbc.Spinner(children=[dcc.Graph(id='map1', config={'displayModeBar': False, 'scrollZoom': True},
-                                                    style={'background': '#000000', 'padding-bottom': '2px',
-                                                           'padding-left': '2px',
-                                                           'height': '100vh', 'width': '150vh'}
-                                                    )], size="lg", color="primary", type="border", fullscreen=False, ),
                     # Karte 1 Auswahl
-                    html.Label(children=['Karte 1: '], style=blackbold),
+                    html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für Karte 1: '], style=blackbold),
                     dcc.Checklist(id='checklist_map1',
                                   options=[
                                       {'label': 'Rad', 'value': 1},
@@ -234,17 +254,18 @@ def render_page_content(pathname):
                                   ],
                                   value=[b for b in sorted(df['Teilnehmer'].unique())],
                                   style={"display": "inline", 'color': 'black', 'border-bottom': 'solid 3px',
-                                         'border-color': '#000000', 'padding-top': '6px'},
+                                         'border-color': '#ffffff', 'padding-top': '6px'},
                                   labelStyle={"display": "inline"}
                                   ),
+                    dbc.Spinner(children=[dcc.Graph(id='map1', config={'displayModeBar': False, 'scrollZoom': True},
+                              style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                     'height': '100vh', 'width': '150vh'}
+                              )], size="lg", color="primary", type="border", fullscreen=False,),
 
-                    dbc.Spinner(children=[dcc.Graph(id='map2', config={'displayModeBar': False, 'scrollZoom': True},
-                                                    style={'background': '#000000', 'padding-bottom': '2px',
-                                                           'padding-left': '2px',
-                                                           'height': '100vh', 'width': '150vh'}
-                                                    )], size="lg", color="primary", type="border", fullscreen=False, ),
+
+                    html.Hr(),
                     # Karte 2 Auswahl
-                    html.Label(children=['Karte 2: '], style=blackbold),
+                    html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für Karte 2: '], style=blackbold),
                     dcc.Checklist(id='checklist_map2',
                                   options=[
                                       {'label': 'Rad', 'value': 1},
@@ -256,17 +277,17 @@ def render_page_content(pathname):
                                   ],
                                   value=[b for b in sorted(df['Teilnehmer'].unique())],
                                   style={"display": "inline", 'color': 'black', 'border-bottom': 'solid 3px',
-                                         'border-color': '#000000', 'padding-top': '6px'},
+                                         'border-color': '#ffffff', 'padding-top': '6px'},
                                   labelStyle={"display": "inline"}
                                   ),
+                    dbc.Spinner(children=[dcc.Graph(id='map2', config={'displayModeBar': False, 'scrollZoom': True},
+                              style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                     'height': '100vh', 'width': '150vh'}
+                              )], size="lg", color="primary", type="border", fullscreen=False,),
 
-                    dbc.Spinner(children=[dcc.Graph(id='graph2', config={'displayModeBar': False, 'scrollZoom': True},
-                                                    style={'background': '#000000', 'padding-bottom': '2px',
-                                                           'padding-left': '2px',
-                                                           'height': '100vh', 'width': '150vh'}
-                                                    )], size="lg", color="primary", type="border", fullscreen=False, ),
+                    html.Hr(),
                     # Sunburst Auswahl Faktor
-                    html.Label(children=['Sunburst: '], style=blackbold),
+                    html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für Sunburstdiagramm: '], style=blackbold),
                     dcc.Dropdown(id='my_dropdown',
                                  options=[
                                      {'label': 'Unfall mit Rad', 'value': 'IstRad'},
@@ -275,42 +296,9 @@ def render_page_content(pathname):
                                      {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
                                      {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
                                      {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
-                                     {'label': 'Teilnehmer', 'value': 'Teilnehmer'}
-                                 ],
-                                 optionHeight=35,  # height/space between dropdown options
-                                 value='Teilnehmer',  # dropdown value selected automatically when page loads
-                                 disabled=False,  # disable dropdown value selection
-                                 multi=False,  # allow multiple dropdown values to be selected
-                                 searchable=True,  # allow user-searching of dropdown values
-                                 search_value='',  # remembers the value searched in dropdown
-                                 placeholder='Please select...',  # gray, default text shown when no option is selected
-                                 clearable=True,  # allow user to removes the selected value
-                                 style={'width': "100%", 'color': 'black', 'border-bottom': 'solid 3px',
-                                        'border-color': '#000000', 'padding-top': '6px'},
-                                 # use dictionary to define CSS styles of your dropdown
-                                 # className='select_box',           #activate separate CSS document in assets folder
-                                 # persistence=True,                 #remembers dropdown value. Used with persistence_type
-                                 # persistence_type='memory'         #remembers dropdown value selected until...
-                                 ),
-                    dbc.Spinner(children=[dcc.Graph(id='graph3', config={'displayModeBar': False, 'scrollZoom': True},
-                                                    style={'background': '#000000', 'padding-bottom': '2px',
-                                                           'padding-left': '2px',
-                                                           'height': '100vh', 'width': '150vh'}
-                                                    )], size="lg", color="primary", type="border", fullscreen=False, ),
-                    # Sunburst Auswahl Faktor
-                    html.Label(children=['Heatmap/Kalender: '], style=blackbold),
-                    dcc.Dropdown(id='dropdown_heatmap',
-                                 options=[
-                                     {'label': 'Unfall mit Rad', 'value': 'IstRad'},
-                                     {'label': 'Unfall mit PKW', 'value': 'IstPKW'},
-                                     {'label': 'Unfall mit Fußgänger', 'value': 'IstFuss'},
-                                     {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
-                                     {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
-                                     {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
-                                     {'label': 'Teilnehmer', 'value': 'Teilnehmer'}
                                  ],
                                  optionHeight=35,
-                                 value='Teilnehmer',
+                                 value='IstRad',
                                  disabled=False,
                                  multi=False,
                                  searchable=True,
@@ -318,15 +306,43 @@ def render_page_content(pathname):
                                  placeholder='Please select...',
                                  clearable=True,
                                  style={'width': "100%", 'color': 'black', 'border-bottom': 'solid 3px',
-                                        'border-color': '#000000', 'padding-top': '6px'},
+                                        'border-color': '#ffffff', 'padding-top': '6px'},
                                  ),
-                    # Graph Tageszeiten
-                    dbc.Spinner(children=[dcc.Graph(id='graph4', config={'displayModeBar': False, 'scrollZoom': True},
-                                                    style={'background': '#000000', 'padding-bottom': '2px',
-                                                           'padding-left': '2px',
-                                                           'height': '100vh', 'width': '150vh'}
-                                                    )], size="lg", color="primary", type="border", fullscreen=False, ),
-                    html.Label(children=['Tageszeiten: '], style=blackbold),
+                    dbc.Spinner(children=[dcc.Graph(id='graph2', config={'displayModeBar': False, 'scrollZoom': True},
+                              style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                     'height': '100vh', 'width': '150vh'}
+                              )], size="lg", color="primary", type="border", fullscreen=False,),
+
+                    html.Hr(),
+                    # Heatmap Auswahl Faktor
+                    html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für Heatmap/Kalender: '], style=blackbold),
+                    dcc.Dropdown(id='dropdown_heatmap',
+                                  options=[
+                                      {'label': 'Rad', 'value': 1},
+                                      {'label': 'PKW', 'value': 2},
+                                      {'label': 'Fußgänger', 'value': 3},
+                                      {'label': 'Krad', 'value': 4},
+                                      {'label': 'Gkfz', 'value': 5},
+                                      {'label': 'Sonstige', 'value': 6},
+                                  ],
+                                 optionHeight=35,
+                                 value=1,
+                                 disabled=False,
+                                 multi=False,
+                                 searchable=True,
+                                 search_value='',
+                                 placeholder='Please select...',
+                                 clearable=True,
+                                 style={'width': "100%", 'color': 'black', 'border-bottom': 'solid 3px',
+                                        'border-color': '#ffffff', 'padding-top': '6px'},
+                                 ),
+                    dbc.Spinner(children=[dcc.Graph(id='graph3', config={'displayModeBar': False, 'scrollZoom': True},
+                              style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                     'height': '100vh', 'width': '150vh'}
+                              )], size="lg", color="primary", type="border", fullscreen=False,),
+
+                    html.Hr(),
+                    html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für Visualisierung der Tageszeiten: '], style=blackbold),
                     dcc.Checklist(id='checklist_tageszeiten',
                                   options=[
                                       {'label': 'Unfall mit Rad', 'value': 'IstRad'},
@@ -336,12 +352,18 @@ def render_page_content(pathname):
                                       {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
                                       {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
                                   ],
-                                  value=['UKATEGORIE', 'UART', 'UTYP1', 'ULICHTVERH', 'IstRad', 'IstPKW', 'IstFuss',
-                                         'IstKrad', 'IstGkfz', 'IstSonstig', 'STRZUSTAND'],
+                                  value=['IstRad', 'IstPKW', 'IstFuss',
+                                         'IstKrad', 'IstGkfz', 'IstSonstig'],
                                   style={"display": "inline", 'color': 'black', 'border-bottom': 'solid 3px',
-                                         'border-color': '#000000', 'padding-top': '6px'},
+                                         'border-color': '#ffffff', 'padding-top': '6px'},
                                   labelStyle={"display": "inline"}
                                   ),
+                    # Graph Tageszeiten
+                    dbc.Spinner(children=[dcc.Graph(id='graph4', config={'displayModeBar': False, 'scrollZoom': True},
+                              style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                     'height': '100vh', 'width': '150vh'}
+                              )], size="lg", color="primary", type="border", fullscreen=False,),
+
                 ],  # className='nine columns'
                 ),
 
@@ -382,7 +404,7 @@ def render_page_content(pathname):
                              {'label': '2021', 'value': 'df21'}
                          ],
                          optionHeight=35,
-                         value='df20',
+                         value='df21',
                          disabled=False,
                          multi=False,
                          searchable=True,
@@ -391,166 +413,127 @@ def render_page_content(pathname):
                          clearable=True,
                          style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
                          ),
+            html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für die Karten: '], style=blackbold),
             dcc.Checklist(id='checklist_vergleich_map',
-                          options=[
-                              {'label': 'Rad', 'value': 1},
-                              {'label': 'PKW', 'value': 2},
-                              {'label': 'Fußgänger', 'value': 3},
-                              {'label': 'Krad', 'value': 4},
-                              {'label': 'Gkfz', 'value': 5},
-                              {'label': 'Sonstige', 'value': 6},
-                          ],
-                          value=[b for b in sorted(df['Teilnehmer'].unique())],
-                          style={"display": "inline", 'color': 'black', 'border-bottom': 'solid 3px',
-                                 'border-color': '#000000', 'padding-top': '6px'},
-                          labelStyle={"display": "inline"}
-                          ),
+                                  options=[
+                                      {'label': 'Rad', 'value': 1},
+                                      {'label': 'PKW', 'value': 2},
+                                      {'label': 'Fußgänger', 'value': 3},
+                                      {'label': 'Krad', 'value': 4},
+                                      {'label': 'Gkfz', 'value': 5},
+                                      {'label': 'Sonstige', 'value': 6},
+                                  ],
+                                  value=[b for b in sorted(df['Teilnehmer'].unique())],
+                                  style={"display": "inline", 'color': 'black', 'border-bottom': 'solid 3px',
+                                         'border-color': '#ffffff', 'padding-top': '6px'},
+                                  labelStyle={"display": "inline"}
+                                  ),
 
             dbc.Spinner(children=[dcc.Graph(id='map_vergleich', config={'displayModeBar': False, 'scrollZoom': True},
-                                            style={'background': '#000000', 'padding-bottom': '2px',
-                                                   'padding-left': '2px',
-                                                   'height': '100vh', 'width': '150vh', 'display': 'inline-block'}
-                                            )], size="lg", color="primary", type="border", fullscreen=False, ),
+                              style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                     'height': '100vh', 'width': '150vh','display': 'inline-block'}
+                              )], size="lg", color="primary", type="border", fullscreen=False,),
+            html.Hr(),
 
             # Sunburst Auswahl Faktor1
-            html.Label(children=['Sunburst: '], style=blackbold),
-            dcc.Dropdown(id='vergleich_sunburst_dropdown1',
-                         options=[
-                             {'label': 'Unfall mit Rad', 'value': 'IstRad'},
-                             {'label': 'Unfall mit PKW', 'value': 'IstPKW'},
-                             {'label': 'Unfall mit Fußgänger', 'value': 'IstFuss'},
-                             {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
-                             {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
-                             {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
-                             {'label': 'Teilnehmer', 'value': 'Teilnehmer'}
-                         ],
-                         optionHeight=35,
-                         value='Teilnehmer',
-                         disabled=False,
-                         multi=False,
-                         searchable=True,
-                         search_value='',
-                         placeholder='Please select...',
-                         clearable=True,
-                         style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
-                         ),
-            # Sunburst Auswahl Faktor2
-            # html.Label(children=['Sunburst 2: '], style=blackbold),
-            # dcc.Dropdown(id='vergleich_sunburst_dropdown2',
-            #              options=[
-            #                  {'label': 'Unfall mit Rad', 'value': 'IstRad'},
-            #                  {'label': 'Unfall mit PKW', 'value': 'IstPKW'},
-            #                  {'label': 'Unfall mit Fußgänger', 'value': 'IstFuss'},
-            #                  {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
-            #                  {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
-            #                  {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
-            #                  {'label': 'Teilnehmer', 'value': 'Teilnehmer'}
-            #              ],
-            #              optionHeight=35,
-            #              value='Teilnehmer',
-            #              disabled=False,
-            #              multi=False,
-            #              searchable=True,
-            #              search_value='',
-            #              placeholder='Please select...',
-            #              clearable=True,
-            #              style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
-            #              ),
+                    html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für das Sunburstdiagramm: '], style=blackbold),
+                    dcc.Dropdown(id='vergleich_sunburst_dropdown1',
+                                 options=[
+                                     {'label': 'Unfall mit Rad', 'value': 'IstRad'},
+                                     {'label': 'Unfall mit PKW', 'value': 'IstPKW'},
+                                     {'label': 'Unfall mit Fußgänger', 'value': 'IstFuss'},
+                                     {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
+                                     {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
+                                     {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
+                                 ],
+                                 optionHeight=35,
+                                 value='IstRad',
+                                 disabled=False,
+                                 multi=False,
+                                 searchable=True,
+                                 search_value='',
+                                 placeholder='Please select...',
+                                 clearable=True,
+                                 style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
+                                 ),
+
             html.Div(children=[
-                dbc.Spinner(
-                    children=[dcc.Graph(id='sunburst_vergleich1', config={'displayModeBar': False, 'scrollZoom': True},
-                                        style={'background': '#000000', 'display': 'inline-block'}
-                                        ),
-                              dcc.Graph(id='sunburst_vergleich2', config={'displayModeBar': False, 'scrollZoom': True},
-                                        style={'background': '#000000', 'display': 'inline-block'}
-                                        )], size="lg", color="primary", type="border", fullscreen=False, ),
-            ],
-            ),
-            html.Label(children=['Heatmap: '], style=blackbold),
-            dcc.Dropdown(id='vergleich_heatmap_dropdown1',
-                         options=[
-                             {'label': 'Unfall mit Rad', 'value': 'IstRad'},
-                             {'label': 'Unfall mit PKW', 'value': 'IstPKW'},
-                             {'label': 'Unfall mit Fußgänger', 'value': 'IstFuss'},
-                             {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
-                             {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
-                             {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
-                             {'label': 'Teilnehmer', 'value': 'Teilnehmer'}
-                         ],
-                         optionHeight=35,
-                         value='Teilnehmer',
-                         disabled=False,
-                         multi=False,
-                         searchable=True,
-                         search_value='',
-                         placeholder='Please select...',
-                         clearable=True,
-                         style={'width': "100%", 'color': 'black',
-                                'padding-top': '6px'},
-                         ),
-            # html.Label(children=['Heatmap 2: '], style=blackbold),
-            # dcc.Dropdown(id='vergleich_heatmap_dropdown2',
-            #              options=[
-            #                  {'label': 'Unfall mit Rad', 'value': 'IstRad'},
-            #                  {'label': 'Unfall mit PKW', 'value': 'IstPKW'},
-            #                  {'label': 'Unfall mit Fußgänger', 'value': 'IstFuss'},
-            #                  {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
-            #                  {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
-            #                  {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
-            #                  {'label': 'Teilnehmer', 'value': 'Teilnehmer'}
-            #              ],
-            #              optionHeight=35,
-            #              value='Teilnehmer',
-            #              disabled=False,
-            #              multi=False,
-            #              searchable=True,
-            #              search_value='',
-            #              placeholder='Please select...',
-            #              clearable=True,
-            #              style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
-            #              ),
-            html.Div(children=[
-                dbc.Spinner(
-                    children=[dcc.Graph(id='kalender_vergleich1', config={'displayModeBar': False, 'scrollZoom': True},
-                                        style={'background': '#000000', 'display': 'inline-block'}
-                                        )], size="lg", color="primary", type="border", fullscreen=False, ),
-                dbc.Spinner(
-                    children=[dcc.Graph(id='kalender_vergleich2', config={'displayModeBar': False, 'scrollZoom': True},
-                                        style={'background': '#000000', 'display': 'inline-block'}
-                                        )], size="lg", color="primary", type="border", fullscreen=False, ),
-            ],
-            ),
-            html.Label(children=['Tageszeiten: '], style=blackbold),
-            dcc.Checklist(id='vergleich_tageszeiten_checklist',
-                          options=[
-                              {'label': 'Unfall mit Rad', 'value': 'IstRad'},
-                              {'label': 'Unfall mit PKW', 'value': 'IstPKW'},
-                              {'label': 'Unfall mit Fußgänger', 'value': 'IstFuss'},
-                              {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
-                              {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
-                              {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
-                          ],
-                          value=['UKATEGORIE', 'UART', 'UTYP1', 'ULICHTVERH', 'IstRad', 'IstPKW', 'IstFuss',
-                                 'IstKrad', 'IstGkfz', 'IstSonstig', 'STRZUSTAND'],
-                          style={"display": "inline", 'color': 'black', 'padding-top': '6px'},
-                          labelStyle={"display": "inline"}
+                dbc.Spinner(children=[dcc.Graph(id='sunburst_vergleich1', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
                           ),
+                          dcc.Graph(id='sunburst_vergleich2', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
+            ),
+            html.Hr(),
+                    html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für Heatmap/Kalender: '], style=blackbold),
+                    dcc.Dropdown(id='vergleich_heatmap_dropdown1',
+                                  options=[
+                                      {'label': 'Rad', 'value': 1},
+                                      {'label': 'PKW', 'value': 2},
+                                      {'label': 'Fußgänger', 'value': 3},
+                                      {'label': 'Krad', 'value': 4},
+                                      {'label': 'Gkfz', 'value': 5},
+                                      {'label': 'Sonstige', 'value': 6},
+                                  ],
+                                 optionHeight=35,
+                                 value=1,
+                                 disabled=False,
+                                 multi=False,
+                                 searchable=True,
+                                 search_value='',
+                                 placeholder='Please select...',
+                                 clearable=True,
+                                 style={'width': "100%", 'color': 'black',
+                                        'padding-top': '6px'},
+                                 ),
+
             html.Div(children=[
-                dbc.Spinner(children=[
-                    dcc.Graph(id='tageszeiten_vergleich1', config={'displayModeBar': False, 'scrollZoom': True},
-                              style={'background': '#000000', 'display': 'inline-block'}
-                              )], size="lg", color="primary", type="border", fullscreen=False, ),
-                dbc.Spinner(children=[
-                    dcc.Graph(id='tageszeiten_vergleich2', config={'displayModeBar': False, 'scrollZoom': True},
-                              style={'background': '#000000', 'display': 'inline-block'}
-                              )], size="lg", color="primary", type="border", fullscreen=False, ),
-            ],
+                dbc.Spinner(children=[dcc.Graph(id='kalender_vergleich1', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                dbc.Spinner(children=[dcc.Graph(id='kalender_vergleich2', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
+            ),
+                    html.Label(children=['Zusätzliche Filter Verkehrsteilnehmer für die Visualisierung der Tageszeiten: '], style=blackbold),
+                    dcc.Checklist(id='vergleich_tageszeiten_checklist',
+                                  options=[
+                                      {'label': 'Unfall mit Rad', 'value': 'IstRad'},
+                                      {'label': 'Unfall mit PKW', 'value': 'IstPKW'},
+                                      {'label': 'Unfall mit Fußgänger', 'value': 'IstFuss'},
+                                      {'label': 'Unfall mit Kraftrad', 'value': 'IstKrad'},
+                                      {'label': 'Unfall mit Güterkraftfahrzeug', 'value': 'IstGkfz'},
+                                      {'label': 'Unfall mit Sonstigen', 'value': 'IstSonstig'},
+                                  ],
+                                  value=['IstRad', 'IstPKW', 'IstFuss',
+                                         'IstKrad', 'IstGkfz', 'IstSonstig'],
+                                  style={"display": "inline", 'color': 'black', 'padding-top': '6px'},
+                                  labelStyle={"display": "inline"}
+                                  ),
+            html.Hr(),
+            html.Div(children=[
+                dbc.Spinner(children=[dcc.Graph(id='tageszeiten_vergleich1', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                dbc.Spinner(children=[dcc.Graph(id='tageszeiten_vergleich2', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
             ),
         ]
     elif pathname == "/page-2":
         return [
             html.Div([
-                html.H1('Trends', style={'textAlign': 'center', 'color': 'black'}),
+            html.H1('Trends', style={'textAlign': 'center', 'color': 'black'}),
                 html.Div(children=[
                     dcc.Dropdown(id='trend_dropdown1',
                                  options=[
@@ -569,17 +552,17 @@ def render_page_content(pathname):
                                  clearable=True,
                                  style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
                                  ),
-                    html.Div(children=[
-                        dbc.Spinner(children=[dcc.Graph(id='trend_graph1',
-                                                        # figure=px.bar(df20, x = "USTUNDE", y="Teilnehmer", title="Tageszeiten Jahr 2"),
-                                                        config={'displayModeBar': False, 'scrollZoom': True},
-                                                        style={'background': '#000000', 'display': 'inline-block'}
-                                                        ), ], size="lg", color="primary", type="border",
-                                    fullscreen=False, ),
-                    ],
-                    ),
-                    html.H2('Wochentage', style={'textAlign': 'center', 'color': 'black'}),
-                    dcc.Dropdown(id='trend_wochentage_dropdown',
+            html.Div(children=[
+                dbc.Spinner(children=[dcc.Graph(id='trend_graph1',
+                                                #figure=px.bar(df20, x = "USTUNDE", y="Teilnehmer", title="Tageszeiten Jahr 2"),
+                                                config={'displayModeBar': False, 'scrollZoom': True},
+                                                style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                                       'height': '100vh', 'width': '150vh'}
+                          ),], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
+            ),
+            html.H2('Wochentage', style={'textAlign': 'center', 'color': 'black'}),
+                 dcc.Dropdown(id='trend_wochentage_dropdown',
                                  options=[
                                      {'label': 'Montag', 'value': 'Montag'},
                                      {'label': 'Dienstag', 'value': 'Dienstag'},
@@ -599,16 +582,16 @@ def render_page_content(pathname):
                                  clearable=True,
                                  style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
                                  ),
-                    html.Div(children=[
-                        dbc.Spinner(children=[dcc.Graph(id='trend_wochentage',
-                                                        config={'displayModeBar': False, 'scrollZoom': True},
-                                                        style={'background': '#000000', 'display': 'inline-block'}
-                                                        ), ], size="lg", color="primary", type="border",
-                                    fullscreen=False, ),
-                    ],
-                    ),
-                    html.H2('Monate', style={'textAlign': 'center', 'color': 'black'}),
-                    dcc.Dropdown(id='trend_monate_dropdown',
+            html.Div(children=[
+                dbc.Spinner(children=[dcc.Graph(id='trend_wochentage',
+                                                config={'displayModeBar': False, 'scrollZoom': True},
+                                                style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                                       'height': '100vh', 'width': '150vh'}
+                          ),], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
+            ),
+            html.H2('Monate', style={'textAlign': 'center', 'color': 'black'}),
+                dcc.Dropdown(id='trend_monate_dropdown',
                                  options=[
                                      {'label': 'Januar', 'value': 'Jan'},
                                      {'label': 'Februar', 'value': 'Feb'},
@@ -633,16 +616,16 @@ def render_page_content(pathname):
                                  clearable=True,
                                  style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
                                  ),
-                    html.Div(children=[
-                        dbc.Spinner(children=[dcc.Graph(id='trend_monate',
-                                                        config={'displayModeBar': False, 'scrollZoom': True},
-                                                        style={'background': '#000000', 'display': 'inline-block'}
-                                                        ), ], size="lg", color="primary", type="border",
-                                    fullscreen=False, ),
-                    ],
-                    ),
-                    html.H2('Beleuchtung', style={'textAlign': 'center', 'color': 'black'}),
-                    dcc.Dropdown(id='trend_beleuchtung_dropdown',
+            html.Div(children=[
+                dbc.Spinner(children=[dcc.Graph(id='trend_monate',
+                                                config={'displayModeBar': False, 'scrollZoom': True},
+                                                style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                                       'height': '100vh', 'width': '150vh'}
+                          ),], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
+            ),
+            html.H2('Beleuchtung', style={'textAlign': 'center', 'color': 'black'}),
+                dcc.Dropdown(id='trend_beleuchtung_dropdown',
                                  options=[
                                      {'label': 'Tageslicht', 'value': 'Tag'},
                                      {'label': 'Dämmerung', 'value': 'Daemmerung'},
@@ -658,16 +641,16 @@ def render_page_content(pathname):
                                  clearable=True,
                                  style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
                                  ),
-                    html.Div(children=[
-                        dbc.Spinner(children=[dcc.Graph(id='trend_beleuchtung',
-                                                        config={'displayModeBar': False, 'scrollZoom': True},
-                                                        style={'background': '#000000', 'display': 'inline-block'}
-                                                        ), ], size="lg", color="primary", type="border",
-                                    fullscreen=False, ),
-                    ],
-                    ),
-                    html.H2('Straßenbedingungen', style={'textAlign': 'center', 'color': 'black'}),
-                    dcc.Dropdown(id='trend_strassen_dropdown',
+            html.Div(children=[
+                dbc.Spinner(children=[dcc.Graph(id='trend_beleuchtung',
+                                                config={'displayModeBar': False, 'scrollZoom': True},
+                                                style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                                       'height': '100vh', 'width': '150vh'}
+                          ),], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
+            ),
+            html.H2('Straßenbedingungen', style={'textAlign': 'center', 'color': 'black'}),
+                dcc.Dropdown(id='trend_strassen_dropdown',
                                  options=[
                                      {'label': 'Trocken', 'value': 'Trocken'},
                                      {'label': 'Nass', 'value': 'Nass'},
@@ -683,15 +666,15 @@ def render_page_content(pathname):
                                  clearable=True,
                                  style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
                                  ),
-                    html.Div(children=[
-                        dbc.Spinner(children=[dcc.Graph(id='trend_strassen',
-                                                        config={'displayModeBar': False, 'scrollZoom': True},
-                                                        style={'background': '#000000', 'display': 'inline-block'}
-                                                        ), ], size="lg", color="primary", type="border",
-                                    fullscreen=False, ),
-                    ],
-                    ),
-                    html.H2('Treemap', style={'textAlign': 'center', 'color': 'black'}),
+            html.Div(children=[
+                dbc.Spinner(children=[dcc.Graph(id='trend_strassen',
+                                                config={'displayModeBar': False, 'scrollZoom': True},
+                                                style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                                       'height': '100vh', 'width': '150vh'}
+                          ),], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
+            ),
+            html.H2('Treemap', style={'textAlign': 'center', 'color': 'black'}),
                     dcc.Dropdown(id='trend_treemap_dropdown',
                                  options=[
                                      {'label': 'Fahrrad', 'value': 'IstRad'},
@@ -711,34 +694,34 @@ def render_page_content(pathname):
                                  clearable=True,
                                  style={'width': "100%", 'color': 'black', 'padding-top': '6px'},
                                  ),
-                    html.Div(children=[
-                        dbc.Spinner(children=[
-                            dcc.Graph(id='trend_treemap1', config={'displayModeBar': False, 'scrollZoom': True},
-                                      style={'background': '#000000', 'display': 'inline-block'}
-                                      )], size="lg", color="primary", type="border", fullscreen=False, ),
-                        dbc.Spinner(children=[
-                            dcc.Graph(id='trend_treemap2', config={'displayModeBar': False, 'scrollZoom': True},
-                                      style={'background': '#000000', 'display': 'inline-block'}
-                                      )], size="lg", color="primary", type="border", fullscreen=False, ),
-                        dbc.Spinner(children=[
-                            dcc.Graph(id='trend_treemap3', config={'displayModeBar': False, 'scrollZoom': True},
-                                      style={'background': '#000000', 'display': 'inline-block'}
-                                      )], size="lg", color="primary", type="border", fullscreen=False, ),
-                        dbc.Spinner(children=[
-                            dcc.Graph(id='trend_treemap4', config={'displayModeBar': False, 'scrollZoom': True},
-                                      style={'background': '#000000', 'display': 'inline-block'}
-                                      )], size="lg", color="primary", type="border", fullscreen=False, ),
-                        dbc.Spinner(children=[
-                            dcc.Graph(id='trend_treemap5', config={'displayModeBar': False, 'scrollZoom': True},
-                                      style={'background': '#000000', 'display': 'inline-block'}
-                                      )], size="lg", color="primary", type="border", fullscreen=False, ),
-                        dbc.Spinner(children=[
-                            dcc.Graph(id='trend_treemap6', config={'displayModeBar': False, 'scrollZoom': True},
-                                      style={'background': '#000000', 'display': 'inline-block'}
-                                      )], size="lg", color="primary", type="border", fullscreen=False, ),
-                    ],
-                    ),
-                ], ),
+            html.Div(children=[
+                dbc.Spinner(children=[dcc.Graph(id='trend_treemap1', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                dbc.Spinner(children=[dcc.Graph(id='trend_treemap2', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                dbc.Spinner(children=[dcc.Graph(id='trend_treemap3', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                dbc.Spinner(children=[dcc.Graph(id='trend_treemap4', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                dbc.Spinner(children=[dcc.Graph(id='trend_treemap5', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                dbc.Spinner(children=[dcc.Graph(id='trend_treemap6', config={'displayModeBar': False, 'scrollZoom': True},
+                          style={'background': '#ffffff', 'padding-bottom': '2px', 'padding-left': '2px',
+                                 'height': '100vh', 'width': '150vh'}
+                          )], size="lg", color="primary", type="border", fullscreen=False,),
+                ],
+            ),
+            ],),
             ])
         ]
 
@@ -813,7 +796,7 @@ def home_maps(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, chosen_stras
                    clickmode='event+select',
                    hovermode='closest',
                    hoverdistance=2,
-                   title=dict(text="Unfaelle", font=dict(size=50, color='purple')),
+                   #title=dict(text="Unfaelle", font=dict(size=50, color='purple')),
                    mapbox=dict(
                        accesstoken=mapbox_access_token,
                        bearing=0,
@@ -835,7 +818,7 @@ def home_maps(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, chosen_stras
                    clickmode='event+select',
                    hovermode='closest',
                    hoverdistance=2,
-                   title=dict(text="Unfaelle", font=dict(size=50, color='purple')),
+                   #title=dict(text="Unfaelle", font=dict(size=50, color='purple')),
                    mapbox=dict(
                        accesstoken=mapbox_access_token,
                        bearing=0,
@@ -893,21 +876,20 @@ def home_sunburst(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, chosen_s
     return [go.Figure(data=graph2)]
 
 
-# callback home kalender heatmap
+#callback home kalender heatmap
 @app.callback([Output(component_id='graph3', component_property='figure'),
-               ],
-              [Input('jahr', 'value'),
-               Input('monat', 'value'),
-               #Input('stunden', 'value'),
-               Input('lichtverhaeltnisse', 'value'),
-               Input('strassenverhaeltnisse', 'value'),
-               Input('wochentage', 'value'),
-               Input('unterkategorie', 'value'),
-               Input('unfallart', 'value'),
-               Input('dropdown_heatmap', 'value'),
-               ])
-def home_kalendar_heatmap(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, chosen_strassen,
-                          chosen_wochentag, chosen_unterkategorie, chosen_unfallart, chosen_heatmap):
+            ],
+           [Input('jahr', 'value'),
+            Input('monat', 'value'),
+            #Input('stunden', 'value'),
+            Input('lichtverhaeltnisse', 'value'),
+            Input('strassenverhaeltnisse', 'value'),
+            Input('wochentage', 'value'),
+            Input('unterkategorie', 'value'),
+            Input('unfallart', 'value'),
+            Input('dropdown_heatmap', 'value'),
+           ])
+def home_kalendar_heatmap(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, chosen_strassen, chosen_wochentag, chosen_unterkategorie, chosen_unfallart, chosen_heatmap):
     df = set_jahr(chosen_jahr)
     filter_wochentag = (df['UWOCHENTAG'].isin(chosen_wochentag))
     filter_lichtverhaeltnisse = (df['ULICHTVERH'].isin(chosen_lichtverhaeltnisse))
@@ -915,16 +897,17 @@ def home_kalendar_heatmap(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, 
     filter_monat = (df['UMONAT'].isin(chosen_monat))
     filter_unterkategorie = (df['UKATEGORIE'].isin(chosen_unterkategorie))
     filter_unfallart = (df['UART'].isin(chosen_unfallart))
-    #filter_stunde = (df['USTUNDE'].isin(chosen_stunde))
+    chosen_heatmap = map(int, str(chosen_heatmap))
+    filter_teilnehmer = (df['Teilnehmer'].isin(chosen_heatmap))
 
-    df_sub = df[
-        filter_wochentag & filter_lichtverhaeltnisse & filter_strasse & filter_monat & filter_unterkategorie & filter_unfallart]  # & filter_stunde]
+    df_sub = df[filter_wochentag & filter_lichtverhaeltnisse & filter_strasse & filter_monat & filter_unterkategorie & filter_unfallart] # & filter_teilnehmer]
+    df_sub = df_sub[filter_teilnehmer]
 
     graph3 = px.density_heatmap(df_sub,
                                 labels=dict(x="Monat", y="Wochentag", color="Auswahl"),
                                 x=df_sub["UMONAT"],
                                 y=df_sub["UWOCHENTAG"],
-                                z=df_sub[chosen_heatmap], histfunc="count",
+                                z=df_sub["Teilnehmer"], histfunc="count",
                                 marginal_x="histogram", marginal_y="histogram",
                                 # color_continuous_scale = 'virdis'
                                 )
@@ -944,8 +927,7 @@ def home_kalendar_heatmap(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, 
                Input('unfallart', 'value'),
                Input('checklist_tageszeiten', 'value'),
                ])
-def home_tageszeiten(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, chosen_strassen,
-                     chosen_wochentag, chosen_unterkategorie, chosen_unfallart, chosen_tageszeit):
+def home_tageszeiten(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, chosen_strassen, chosen_wochentag, chosen_unterkategorie, chosen_unfallart, chosen_tageszeit):
     df = set_jahr(chosen_jahr)
     filter_wochentag = (df['UWOCHENTAG'].isin(chosen_wochentag))
     filter_lichtverhaeltnisse = (df['ULICHTVERH'].isin(chosen_lichtverhaeltnisse))
@@ -953,9 +935,8 @@ def home_tageszeiten(chosen_jahr, chosen_monat, chosen_lichtverhaeltnisse, chose
     filter_monat = (df['UMONAT'].isin(chosen_monat))
     filter_unterkategorie = (df['UKATEGORIE'].isin(chosen_unterkategorie))
     filter_unfallart = (df['UART'].isin(chosen_unfallart))
-    # filter_stunde = (df['USTUNDE'].isin(chosen_stunde))
-    df_sub = df[
-        filter_wochentag & filter_lichtverhaeltnisse & filter_strasse & filter_monat & filter_unterkategorie & filter_unfallart]  # & filter_stunde]
+    #filter_stunde = (df['USTUNDE'].isin(chosen_stunde))
+    df_sub = df[filter_wochentag & filter_lichtverhaeltnisse & filter_strasse & filter_monat & filter_unterkategorie & filter_unfallart] # & filter_stunde]
 
     graph4 = px.bar(df_sub, x="USTUNDE", y=chosen_tageszeit, title="Tageszeiten")
     return [go.Figure(data=graph4)]
@@ -1117,77 +1098,64 @@ def vergleich_sunburst(chosen_monat, chosen_lichtverhaeltnisse, chosen_strassen,
                Input('vergleich_heatmap_dropdown1', 'value'),
                # Input('vergleich_heatmap_dropdown2', 'value'),
                ])
-def vergleich_kalendar_heatmap(chosen_monat, chosen_lichtverhaeltnisse, chosen_strassen,
-                               chosen_wochentag, chosen_unterkategorie, chosen_unfallart, chosen_jahr1, chosen_jahr2,
-                               chosen_heatmap1):
-    df_heatmap1 = set_jahr(chosen_jahr1)
-    df_heatmap2 = set_jahr(chosen_jahr2)
+def vergleich_kalendar_heatmap(chosen_monat, chosen_lichtverhaeltnisse, chosen_strassen, chosen_wochentag, chosen_unterkategorie, chosen_unfallart, chosen_jahr1, chosen_jahr2, chosen_heatmap):
+        df_heatmap1 = set_jahr(chosen_jahr1)
+        df_heatmap2 = set_jahr(chosen_jahr2)
+        chosen_heatmap1 = map(int, str(chosen_heatmap))
+        filter_teilnehmer1 = (df_heatmap1['Teilnehmer'].isin(chosen_heatmap1))
+        chosen_heatmap2 = map(int, str(chosen_heatmap))
+        filter_teilnehmer2 = (df_heatmap2['Teilnehmer'].isin(chosen_heatmap2))
+        df_sub_heatmap1 = df_heatmap1[df_heatmap1['UWOCHENTAG'].isin(chosen_wochentag) & df_heatmap1['ULICHTVERH'].isin(chosen_lichtverhaeltnisse) & df_heatmap1['STRZUSTAND'].isin(chosen_strassen) & df_heatmap1['UMONAT'].isin(chosen_monat) & df_heatmap1['UKATEGORIE'].isin(chosen_unterkategorie) & df_heatmap1['UART'].isin(chosen_unfallart)]
+        df_sub_heatmap2 = df_heatmap2[df_heatmap2['UWOCHENTAG'].isin(chosen_wochentag) & df_heatmap2['ULICHTVERH'].isin(chosen_lichtverhaeltnisse) & df_heatmap2['STRZUSTAND'].isin(chosen_strassen) & df_heatmap2['UMONAT'].isin(chosen_monat) & df_heatmap2['UKATEGORIE'].isin(chosen_unterkategorie) & df_heatmap2['UART'].isin(chosen_unfallart)]
+        df_sub_heatmap1 = df_sub_heatmap1[filter_teilnehmer1]
+        df_sub_heatmap2 = df_sub_heatmap2[filter_teilnehmer2]
 
-    df_sub_heatmap1 = df_heatmap1[
-        df_heatmap1['UWOCHENTAG'].isin(chosen_wochentag) & df_heatmap1['ULICHTVERH'].isin(chosen_lichtverhaeltnisse) &
-        df_heatmap1['STRZUSTAND'].isin(chosen_strassen) & df_heatmap1['UMONAT'].isin(chosen_monat) & df_heatmap1[
-            'UKATEGORIE'].isin(chosen_unterkategorie) & df_heatmap1['UART'].isin(chosen_unfallart)]
-    df_sub_heatmap2 = df_heatmap2[
-        df_heatmap2['UWOCHENTAG'].isin(chosen_wochentag) & df_heatmap2['ULICHTVERH'].isin(chosen_lichtverhaeltnisse) &
-        df_heatmap2['STRZUSTAND'].isin(chosen_strassen) & df_heatmap2['UMONAT'].isin(chosen_monat) & df_heatmap2[
-            'UKATEGORIE'].isin(chosen_unterkategorie) & df_heatmap2['UART'].isin(chosen_unfallart)]
-    # & df_heatmap1['USTUNDE'].isin(chosen_stunde) , & df_heatmap2['USTUNDE'].isin(chosen_stunde)
-    kalender1 = px.density_heatmap(df_sub_heatmap1,
-                                   labels=dict(x="Monat", y="Wochentag", color="Auswahl"),
-                                   x=df_sub_heatmap1["UMONAT"],
-                                   y=df_sub_heatmap1["UWOCHENTAG"],
-                                   z=df_sub_heatmap1[chosen_heatmap1], histfunc="count",
-                                   marginal_x="histogram", marginal_y="histogram",
-                                   # color_continuous_scale = 'virdis'
-                                   )
-    kalender2 = px.density_heatmap(df_sub_heatmap2,
-                                   labels=dict(x="Monat", y="Wochentag", color="Auswahl"),
-                                   x=df_sub_heatmap2["UMONAT"],
-                                   y=df_sub_heatmap2["UWOCHENTAG"],
-                                   z=df_sub_heatmap2[chosen_heatmap1], histfunc="count",
-                                   marginal_x="histogram", marginal_y="histogram",
-                                   # color_continuous_scale = 'virdis'
-                                   )
+        kalender1 = px.density_heatmap(df_sub_heatmap1,
+                        labels=dict(x="Monat", y="Wochentag", color="Auswahl"),
+                        x=df_sub_heatmap1["UMONAT"],
+                        y=df_sub_heatmap1["UWOCHENTAG"],
+                        z=df_sub_heatmap1["Teilnehmer"], histfunc="count",
+                        marginal_x="histogram", marginal_y="histogram",
+                        #color_continuous_scale = 'virdis'
+                       )
+        kalender2 = px.density_heatmap(df_sub_heatmap2,
+                        labels=dict(x="Monat", y="Wochentag", color="Auswahl"),
+                        x=df_sub_heatmap2["UMONAT"],
+                        y=df_sub_heatmap2["UWOCHENTAG"],
+                        z=df_sub_heatmap2["Teilnehmer"], histfunc="count",
+                        marginal_x="histogram", marginal_y="histogram",
+                        #color_continuous_scale = 'virdis'
+                       )
 
-    return [go.Figure(data=kalender1), go.Figure(data=kalender2)]
+        return [go.Figure(data=kalender1), go.Figure(data=kalender2)]
 
 
-# callback jahresvergleich tageszeiten
+#callback jahresvergleich tageszeiten
 @app.callback([Output(component_id='tageszeiten_vergleich1', component_property='figure'),
                Output(component_id='tageszeiten_vergleich2', component_property='figure'),
-               ],
-              [Input('vergleich_year1', 'value'),
-               Input('vergleich_year2', 'value'),
-               Input('monat', 'value'),
-               #Input('stunden', 'value'),
-               Input('lichtverhaeltnisse', 'value'),
-               Input('strassenverhaeltnisse', 'value'),
-               Input('wochentage', 'value'),
-               Input('unterkategorie', 'value'),
-               Input('unfallart', 'value'),
-               Input('vergleich_tageszeiten_checklist', 'value'),
-               ])
-def vergleich_tageszeiten(chosen_jahr1, chosen_jahr2, chosen_monat, chosen_lichtverhaeltnisse,
-                          chosen_strassen, chosen_wochentag, chosen_unterkategorie, chosen_unfallart, chosen_value):
-    df_tageszeiten1 = set_jahr(chosen_jahr1)
-    df_tageszeiten2 = set_jahr(chosen_jahr2)
-    # df1 = set_jahr(chosen_jahr1)
-    # df2 = set_jahr(chosen_jahr2)
-    # filter_wochentag = (df['UWOCHENTAG'].isin(chosen_wochentag))
-    # filter_lichtverhaeltnisse = (df['ULICHTVERH'].isin(chosen_lichtverhaeltnisse))
-    # filter_strasse = (df['STRZUSTAND'].isin(chosen_strassen))
-    # filter_monat = (df['UMONAT'].isin(chosen_monat))
-    # filter_unterkategorie = (df['UKATEGORIE'].isin(chosen_unterkategorie))
-    # filter_unfallart = (df['UART'].isin(chosen_unfallart))
-    # filter_stunde = (df['USTUNDE'].isin(chosen_stunde))
+            ],
+           [Input('vergleich_year1', 'value'),
+            Input('vergleich_year2', 'value'),
+            Input('monat', 'value'),
+            #Input('stunden', 'value'),
+            Input('lichtverhaeltnisse', 'value'),
+            Input('strassenverhaeltnisse', 'value'),
+            Input('wochentage', 'value'),
+            Input('unterkategorie', 'value'),
+            Input('unfallart', 'value'),
+            Input('vergleich_tageszeiten_checklist', 'value'),
+           ])
+def vergleich_tageszeiten(chosen_jahr1, chosen_jahr2, chosen_monat, chosen_lichtverhaeltnisse, chosen_strassen, chosen_wochentag, chosen_unterkategorie, chosen_unfallart, chosen_value):
+        df1 = set_jahr(chosen_jahr1)
+        df2 = set_jahr(chosen_jahr2)
 
-    # df_tageszeiten1 = df1[filter_wochentag & filter_lichtverhaeltnisse & filter_strasse & filter_monat & filter_unterkategorie & filter_unfallart] #& filter_stunde]
-    # df_tageszeiten2 = df2[filter_wochentag & filter_lichtverhaeltnisse & filter_strasse & filter_monat & filter_unterkategorie & filter_unfallart] #& filter_stunde]
+        df_sub1 = df1[df1['UWOCHENTAG'].isin(chosen_wochentag) & df1['ULICHTVERH'].isin(chosen_lichtverhaeltnisse) & df1['STRZUSTAND'].isin(chosen_strassen) & df1['UMONAT'].isin(chosen_monat) & df1['UKATEGORIE'].isin(chosen_unterkategorie) & df1['UART'].isin(chosen_unfallart)]
+        df_sub2 = df2[df2['UWOCHENTAG'].isin(chosen_wochentag) & df2['ULICHTVERH'].isin(chosen_lichtverhaeltnisse) & df2['STRZUSTAND'].isin(chosen_strassen) & df2['UMONAT'].isin(chosen_monat) & df2['UKATEGORIE'].isin(chosen_unterkategorie) & df2['UART'].isin(chosen_unfallart)]
 
-    tageszeit1 = px.bar(df_tageszeiten1, x="USTUNDE", y=chosen_value, title="Tageszeiten Jahr 1")
-    tageszeit2 = px.bar(df_tageszeiten2, x="USTUNDE", y=chosen_value, title="Tageszeiten Jahr 2")
+        tageszeit1 = px.bar(df_sub1, x = "USTUNDE", y=chosen_value, title="Tageszeiten Jahr 1")
+        tageszeit2 = px.bar(df_sub2, x = "USTUNDE", y=chosen_value, title="Tageszeiten Jahr 2")
 
-    return [go.Figure(data=tageszeit1), go.Figure(data=tageszeit2)]
+        return [go.Figure(data=tageszeit1), go.Figure(data=tageszeit2)]
 
 
 @app.callback([Output(component_id='trend_graph1', component_property='figure'),
@@ -1234,27 +1202,27 @@ def trend_treemap(chosen_treemap):
     df_treemap20 = df_treemap.query("Jahr == 2020")
     df_treemap21 = df_treemap.query("Jahr == 2021")
 
-    treemap1 = px.treemap(df_treemap16, path=[px.Constant("IstRad"), 'Jahr', 'Monat', 'Wochentag'],
+    treemap1 = px.treemap(df_treemap16, path=[px.Constant(chosen_treemap), 'Jahr', 'Monat', 'Wochentag'],
                           color=chosen_treemap, hover_data=['Monat'],
                           color_continuous_scale='blues')
     # treemap1.update_yaxes(range = [0,4000])
-    treemap2 = px.treemap(df_treemap17, path=[px.Constant("IstRad"), 'Jahr', 'Monat', 'Wochentag'],
+    treemap2 = px.treemap(df_treemap17, path=[px.Constant(chosen_treemap), 'Jahr', 'Monat', 'Wochentag'],
                           color=chosen_treemap, hover_data=['Monat'],
                           color_continuous_scale='blues')
     # treemap2.update_yaxes(range = [0,4000])
-    treemap3 = px.treemap(df_treemap18, path=[px.Constant("IstRad"), 'Jahr', 'Monat', 'Wochentag'],
+    treemap3 = px.treemap(df_treemap18, path=[px.Constant(chosen_treemap), 'Jahr', 'Monat', 'Wochentag'],
                           color=chosen_treemap, hover_data=['Monat'],
                           color_continuous_scale='blues')
     # treemap3.update_yaxes(range = [0,4000])
-    treemap4 = px.treemap(df_treemap19, path=[px.Constant("IstRad"), 'Jahr', 'Monat', 'Wochentag'],
+    treemap4 = px.treemap(df_treemap19, path=[px.Constant(chosen_treemap), 'Jahr', 'Monat', 'Wochentag'],
                           color=chosen_treemap, hover_data=['Monat'],
                           color_continuous_scale='blues')
     # treemap4.update_yaxes(range = [0,4000])
-    treemap5 = px.treemap(df_treemap20, path=[px.Constant("IstRad"), 'Jahr', 'Monat', 'Wochentag'],
+    treemap5 = px.treemap(df_treemap20, path=[px.Constant(chosen_treemap), 'Jahr', 'Monat', 'Wochentag'],
                           color=chosen_treemap, hover_data=['Monat'],
                           color_continuous_scale='blues')
     # treemap5.update_yaxes(range = [0,4000])
-    treemap6 = px.treemap(df_treemap21, path=[px.Constant("IstRad"), 'Jahr', 'Monat', 'Wochentag'],
+    treemap6 = px.treemap(df_treemap21, path=[px.Constant(chosen_treemap), 'Jahr', 'Monat', 'Wochentag'],
                           color=chosen_treemap, hover_data=['Monat'],
                           color_continuous_scale='blues')
     # treemap6.update_yaxes(range = [0,4000])
@@ -1265,5 +1233,6 @@ def trend_treemap(chosen_treemap):
 
 if __name__ == '__main__':
     app.run(debug=False)
+
 
 
