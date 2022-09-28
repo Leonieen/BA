@@ -216,6 +216,8 @@ sidebar = html.Div(
                       style={"display": "inline", 'color': 'black'},
                       labelStyle={"display": "inline"}
                       ),
+        html.Hr(),
+        html.Label(children=['Fachdaten: Statistische Ämter des Bundes und der Länder']),
 
     ],
     style=SIDEBAR_STYLE,
@@ -239,6 +241,8 @@ def render_page_content(pathname):
     if pathname == "/":
         return [
             html.Div([
+                html.H1('Hauptseite',
+                    style={'textAlign': 'center', 'color': 'black'}),
                 # Map
                 html.Div([
                     # Karte 1 Auswahl
@@ -1233,6 +1237,5 @@ def trend_treemap(chosen_treemap):
 
 if __name__ == '__main__':
     app.run(debug=False)
-
 
 
